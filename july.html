@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VAMA — 越南汽車市場｜2026年7月</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#fff;--surface:#f6f8fa;--card:#fff;--text:#1f2328;--muted:#656d76;--border:#d0d7de;--accent:#0969da;--shadow:0 8px 26px rgba(140,149,159,.14);--side:245px}
+[data-theme=dark]{--bg:#0d1117;--surface:#161b22;--card:#0d1117;--text:#e6edf3;--muted:#8b949e;--border:#30363d;--accent:#58a6ff;--shadow:0 8px 26px rgba(0,0,0,.28)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--side);padding:26px 16px;border-right:1px solid var(--border);background:var(--surface);overflow:auto}
+.brand{font-size:17px;font-weight:800;margin:0 8px 20px}.nav a{display:block;padding:8px 10px;margin:2px 0;border-radius:7px;color:var(--muted);text-decoration:none}.nav a:hover{background:var(--bg);color:var(--accent)}
+.theme{width:100%;margin-top:18px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer}
+main{margin-left:var(--side);max-width:1250px;padding:42px 50px 70px}.hero{border-bottom:1px solid var(--border);padding-bottom:24px}.eyebrow{font-size:12px;color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase}h1{font-size:34px;line-height:1.15;margin:7px 0 9px}h2{font-size:23px;margin:0 0 5px}p{color:var(--muted);margin:5px 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:20px}.kpi,.card,.detail{border:1px solid var(--border);border-radius:11px;background:var(--card);box-shadow:var(--shadow)}.kpi{padding:15px}.kpi strong{display:block;font-size:24px}.kpi span{font-size:12px;color:var(--muted)}
+section{margin:31px 0 40px;scroll-margin-top:20px}.head{display:flex;justify-content:space-between;gap:16px;align-items:start;margin-bottom:12px}.tag{font-size:11px;color:var(--muted);border:1px solid var(--border);background:var(--surface);padding:3px 8px;border-radius:999px;white-space:nowrap}
+.grid2{display:grid;grid-template-columns:1.55fr .85fr;gap:14px}.card{padding:16px}.chart{height:330px}.chart.tall{height:510px}
+.note{padding:16px;border-left:3px solid var(--accent);background:var(--surface);border-radius:8px;color:var(--muted)}.note strong{color:var(--text)}
+.detail{margin-top:14px;padding:16px;display:none}.detail.show{display:block}.detail-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.detail h3{margin:0}.detail button{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:7px;padding:5px 9px;cursor:pointer}.detail-chart{height:280px;margin-top:10px}
+.legend-note{font-size:12px;color:var(--muted);margin-top:8px}.footer{border-top:1px solid var(--border);padding-top:17px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.sidebar{display:none}main{margin:0;padding:25px 16px 55px}.kpis{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.chart.tall{height:470px}h1{font-size:29px}}
+@media(max-width:520px){.kpis{grid-template-columns:1fr}.chart{height:290px}}
+@media print{.sidebar{display:none}main{margin:0;max-width:none;padding:15px}.kpi,.card,.detail{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">VAMA · Jul 2026</div>
+  <nav class="nav">
+    <a href="#overview">市場概況</a>
+    <a href="#makers">汽車品牌</a>
+    <a href="#segments">車種級距</a>
+    <a href="#regions">區域分布</a>
+    <a href="#powertrain">Hybrid / BEV</a>
+  </nav>
+  <button class="theme" id="themeBtn">Light / Dark</button>
+</aside>
+
+<main>
+<header class="hero" id="overview">
+  <div class="eyebrow">VAMA monthly sales · July 2026</div>
+  <h1>越南汽車市場 — 2026年7月</h1>
+  <p>精簡版以品牌總銷量與圖表為主；各車款明細僅在互動操作時顯示。</p>
+  <div class="kpis">
+    <div class="kpi"><strong>25.246</strong><span>VAMA 7月總銷量</span></div>
+    <div class="kpi"><strong>17.783</strong><span>乘用車</span></div>
+    <div class="kpi"><strong>5.359</strong><span>商用貨車</span></div>
+    <div class="kpi"><strong>1.636</strong><span>Hybrid</span></div>
+  </div>
+</header>
+
+<section id="makers">
+  <div class="head"><div><h2>各品牌銷量</h2><p>主圖僅保留品牌層級；若有車款明細，可點選長條查看品牌旗下各車款銷量。</p></div><span class="tag">互動式明細下鑽</span></div>
+  <div class="card"><div class="chart tall"><canvas id="makerChart"></canvas></div><div class="legend-note">* 本資料範圍為 VAMA 報告，並非整體越南汽車市場；本檔案的品牌表中未列入 VinFast。</div></div>
+  <div class="detail" id="makerDetail">
+    <div class="detail-top"><div><h3 id="detailTitle"></h3><p id="detailMeta"></p></div><button id="closeDetail">關閉</button></div>
+    <div class="detail-chart"><canvas id="detailChart"></canvas></div>
+  </div>
+</section>
+
+<section id="segments">
+  <div class="head"><div><h2>車種結構</h2><p>僅保留主要車種，快速掌握市場需求結構。</p></div><span class="tag">July 2026</span></div>
+  <div class="grid2">
+    <div class="card"><div class="chart"><canvas id="segmentChart"></canvas></div></div>
+    <div class="note"><strong>乘用車中以 SUV 銷量最高：</strong>7,129 輛，其次為 MPV 4,401 輛、Sedan 3,080 輛及 Crossover 2,609 輛。商用貨車合計 5,359 輛，巴士為 462 輛。</div>
+  </div>
+</section>
+
+<section id="regions">
+  <div class="head"><div><h2>各區域銷量分布</h2><p>VAMA 7月報告之整體銷量分布。</p></div><span class="tag">25,246 輛</span></div>
+  <div class="grid2">
+    <div class="card"><div class="chart"><canvas id="regionChart"></canvas></div></div>
+    <div class="note"><strong>北部：</strong>10,543 輛（41.76%）<br><strong>南部：</strong>9,272 輛（36.73%）<br><strong>中部：</strong>5,431 輛（21.51%）</div>
+  </div>
+</section>
+
+<section id="powertrain">
+  <div class="head"><div><h2>報告中的 Hybrid 與 BEV</h2><p>獨立呈現，以避免將 VAMA 的 EV 數據誤解為越南整體市場。</p></div><span class="tag">Powertrain</span></div>
+  <div class="grid2">
+    <div class="card"><div class="chart"><canvas id="powerChart"></canvas></div></div>
+    <div class="note"><strong>Hybrid：</strong>7月銷量 1,636 輛，2026 年初至今累計 12,501 輛。<br><strong>BEV：</strong>7月銷量 6 輛，2026 年初至今累計 76 輛。此數字僅代表 VAMA 報告中所列的 BEV，並不代表越南整體電動車銷量。</div>
+  </div>
+</section>
+
+<footer class="footer">資料來源：VAMA Monthly Production and Sales Data including CBU 2026 — Sales Jul 2026 / YTM 2026。各車款明細預設不顯示於主畫面，僅供互動下鑽查看。</footer>
+</main>
+
+<script>
+const makers = [
+ {name:"Toyota",jul:6866,ytd:42276},
+ {name:"Mitsubishi",jul:3216,ytd:24833},
+ {name:"Ford",jul:3129,ytd:24361},
+ {name:"THACO KIA",jul:2823,ytd:18555},
+ {name:"THACO MAZDA",jul:2557,ytd:17855},
+ {name:"Honda",jul:2129,ytd:13434},
+ {name:"THACO TRUCK",jul:1817,ytd:14336},
+ {name:"Isuzu",jul:1046,ytd:6431},
+ {name:"Suzuki",jul:568,ytd:4382},
+ {name:"DOTHANH",jul:248,ytd:1585},
+ {name:"Hino",jul:184,ytd:1851},
+ {name:"THACO PREMIUM",jul:178,ytd:1319},
+ {name:"Peugeot",jul:131,ytd:801},
+ {name:"BUS THACO",jul:130,ytd:1193},
+ {name:"SAMCO",jul:5,ytd:120},
+ {name:"VINAMOTOR",jul:4,ytd:170},
+ {name:"DAEWOO BUS",jul:2,ytd:33}
+];
+
+const models = {
+ "Toyota":[["Yaris Cross",1503],["Vios",968],["Veloz Cross",899],["Hilux",718],["Innova Cross",681],["Corolla Cross Hybrid",472],["Innova Cross Hybrid",365],["Yaris Cross Hybrid",278],["Wigo",194],["Fortuner (CBU)",178],["Corolla Cross",176],["Raize",142],["Camry Hybrid",91],["Landcruiser",72],["Land Prado",37],["Avanza Premio CKD",35],["Land Cruiser FJ",30],["Alphard Hybrid",27]],
+ "Mitsubishi":[["Xforce",1170],["Xpander (CBU)",942],["Destinator",725],["Xpander (CKD)",141],["Triton",141],["Attrage",97]],
+ "Ford":[["Territory",980],["Everest",849],["Ranger CKD",711],["Transit",321],["Ranger CBU",262],["Mach-E",6]],
+ "THACO KIA":[["Seltos",742],["Sonet",638],["Carnival",461],["Sportage",433],["Carens",426],["Sorento",123]],
+ "THACO MAZDA":[["CX-5",1229],["Mazda2",560],["CX-8",305],["Mazda3",194],["CX-3",118],["CX-30",115],["其他車款",36]],
+ "Honda":[["CITY",1034],["HR-V",387],["BR-V",262],["CR-V Hybrid (2026)",202],["CR-V",132],["HR-V Hybrid",78],["Civic",33],["Civic Hybrid",1]],
+ "Suzuki":[["Super Carry Pro",212],["XL7 Hybrid",122],["Fronx",121],["Swift",42],["EECO",38],["Jimny",33]],
+ "Isuzu":[["Truck",973],["D-Max",55],["mu-X",18]]
+};
+
+const segments = [
+ {name:"SUV",value:7129},{name:"MPV",value:4401},{name:"Sedan",value:3080},
+ {name:"Crossover",value:2609},{name:"Pick-up",value:1887},{name:"Light truck",value:2007},
+ {name:"Other truck",value:1157},{name:"Bus",value:462}
+];
+
+Chart.defaults.font.family='-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif';
+Chart.defaults.plugins.legend.labels.usePointStyle=true;
+let charts=[], detailChart=null;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const axis=()=>({ticks:{color:css('--muted')},grid:{color:css('--border')}});
+
+function draw(){
+ charts.forEach(c=>c.destroy()); charts=[];
+ charts.push(new Chart(document.getElementById("makerChart"),{
+  type:"bar",
+  data:{labels:makers.map(x=>x.name),datasets:[{label:"2026年7月",data:makers.map(x=>x.jul),borderRadius:5}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,onClick:(e,els)=>{if(els.length) showMaker(makers[els[0].index].name)},
+   plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:c=>`YTM 2026: ${makers[c.dataIndex].ytd.toLocaleString("zh-TW")} 輛`}}},
+   scales:{x:{...axis(),beginAtZero:true,title:{display:true,text:"當月銷量",color:css('--muted')}},y:axis()}}
+ }));
+ charts.push(new Chart(document.getElementById("segmentChart"),{
+  type:"bar",data:{labels:segments.map(x=>x.name),datasets:[{data:segments.map(x=>x.value),borderRadius:6}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:axis(),y:{...axis(),beginAtZero:true}}}
+ }));
+ charts.push(new Chart(document.getElementById("regionChart"),{
+  type:"doughnut",data:{labels:["北部","中部","南部"],datasets:[{data:[10543,5431,9272],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:"58%",plugins:{legend:{position:"bottom",labels:{color:css('--text')}},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw.toLocaleString("zh-TW")} 輛（${[41.76,21.51,36.73][c.dataIndex]}%）`}}}}
+ }));
+ charts.push(new Chart(document.getElementById("powerChart"),{
+  type:"bar",data:{labels:["Hybrid","BEV（VAMA 報告範圍）"],datasets:[{label:"7月",data:[1636,6]},{label:"YTM 2026",data:[12501,76]}]},
+  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:css('--text')}}},scales:{x:axis(),y:{...axis(),beginAtZero:true}}}
+ }));
+ if(document.getElementById("makerDetail").classList.contains("show")) showMaker(document.getElementById("detailTitle").dataset.name);
+}
+function showMaker(name){
+ const rows=models[name];
+ const box=document.getElementById("makerDetail");
+ document.getElementById("detailTitle").textContent=name;
+ document.getElementById("detailTitle").dataset.name=name;
+ const m=makers.find(x=>x.name===name);
+ document.getElementById("detailMeta").textContent=rows?`${m.jul.toLocaleString("zh-TW")} 輛（7月）· 點選其他品牌可切換明細`:`${m.jul.toLocaleString("zh-TW")} 輛（7月）· 原始報告未提供或無法清楚擷取此項目的車款明細`;
+ box.classList.add("show");
+ if(detailChart) detailChart.destroy();
+ if(!rows){document.querySelector(".detail-chart").style.display="none";return}
+ document.querySelector(".detail-chart").style.display="block";
+ detailChart=new Chart(document.getElementById("detailChart"),{
+  type:"bar",data:{labels:rows.map(x=>x[0]),datasets:[{data:rows.map(x=>x[1]),borderRadius:5}]},
+  options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...axis(),beginAtZero:true},y:axis()}}
+ });
+ box.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+document.getElementById("closeDetail").onclick=()=>document.getElementById("makerDetail").classList.remove("show");
+document.getElementById("themeBtn").onclick=()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==="dark"?"light":"dark";localStorage.setItem("vama-theme",document.documentElement.dataset.theme);draw()};
+document.documentElement.dataset.theme=localStorage.getItem("vama-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+draw();
+</script>
+</body>
+</html>
